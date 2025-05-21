@@ -4,6 +4,11 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 require('dotenv').config();
 const { createUserTable } = require('./Models/userModel');
+const adminRoutes = require('./Routes/adminRoutes');
+const authRoutes = require('./Routes/authRoutes');
+const userRoutes = require('./Routes/userRoute');
+
+
 
 
 const app = express();
@@ -29,14 +34,16 @@ app.set('views', path.join(__dirname, 'views'));
 
 // Routes
 // const adminRoutes = require('./routes/adminRoutes');
-const authRoutes = require('./Routes/authRoutes');
 // const userRoutes = require('./routes/userRoutes');
 app.use('/', authRoutes);
-// app.use('/', adminRoutes);
-// app.use('/', userRoutes);
+app.use('/admin', adminRoutes);
+app.use('/user', userRoutes);
 
 
 // Schema creation
+const { createFoodTable } = require('./Models/foodModel');
+createFoodTable();
+
 createUserTable(); // Call this after setting up middlewares
 
 
